@@ -3,6 +3,12 @@ var router = express.Router();
 var jwt = require('jsonwebtoken');
 var {User} = require('../models');
 
+router.use(function(req, res, next){
+    res.set('Access-Control-Allow-Origin', "http://localhost:8080");
+    res.set('Access-Control-Allow-Methods', "POST");
+    res.set('Access-Control-Allow-Headers', "Content-Type");
+    next();
+});
 router.post('/signin', (req, res) => {
     User.create(req.body)
     .then(user => {
@@ -14,7 +20,7 @@ router.post('/signin', (req, res) => {
         })
     })
     .catch(err => {
-        res.send(err.errmsg);
+        res.json(err);
     })
 });
 
