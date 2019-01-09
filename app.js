@@ -5,6 +5,7 @@ require('dotenv').load();
 const auth = require('./routes/auth');
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/warbler');
+mongoose.connection.on('error', () => console.error('connection error!'))
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));

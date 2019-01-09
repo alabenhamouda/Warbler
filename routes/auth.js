@@ -26,14 +26,21 @@ router.post('/signup', (req, res) => {
     })
 });
 router.post('/signin', (req, res) => {
-    const {email} = req.body;
+    const {email, password} = req.body;
     User.findOne({email})
     .then(user => {
-        let token = jwt.sign({uesrId: user.id}, process.env.SECRET_KEY);
-        res.json({
-            userId: user.id,
-            token,
-            username: user.uesrname
+        user.checkPassword(password)
+        .then(match => {
+            if (match){
+                let token = jwt.sign({uesrId: user.id}, process.env.SECRET_KEY);
+                res.json({
+                    userId: user.id,
+                    token,
+                    username: user.uesrname
+                })
+            } else {
+                res.json({message: "invalid email/password combination"});
+            }
         })
     })
     .catch(err => {
