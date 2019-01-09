@@ -39,12 +39,12 @@ router.post('/signin', (req, res) => {
                     username: user.uesrname
                 })
             } else {
-                res.json({message: "invalid email/password combination"});
+                res.status(400).json({message: "invalid email/password combination"});
             }
         })
     })
     .catch(err => {
-        res.status(400).json(err);
+        res.status(400).json({message: "invalid email/password combination"});
     })
 });
 
