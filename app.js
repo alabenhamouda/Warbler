@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+require('dotenv').load();
 const auth = require('./routes/auth');
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/warbler');
@@ -15,4 +16,4 @@ app.get('/', (req, res) => {
     });
 })
 
-app.listen(3000, () => console.log('App is running'));
+app.listen(process.env.PORT || 8080, () => console.log('App is running'));

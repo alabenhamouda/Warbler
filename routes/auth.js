@@ -14,7 +14,7 @@ router.post('/signup', (req, res) => {
     // res.cookie('aze', 'testtest', {httpOnly: false});
     User.create(req.body)
     .then(user => {
-        let token = jwt.sign({userId: user.id}, 'a_very_hard_to_guess_secret');
+        let token = jwt.sign({userId: user.id}, process.env.SECRET_KEY);
         res.json({
             userId: user.id,
             token,
@@ -29,7 +29,7 @@ router.post('/signin', (req, res) => {
     const {email} = req.body;
     User.findOne({email})
     .then(user => {
-        let token = jwt.sign({uesrId: user.id}, 'a_very_hard_to_guess_secret');
+        let token = jwt.sign({uesrId: user.id}, process.env.SECRET_KEY);
         res.json({
             userId: user.id,
             token,
