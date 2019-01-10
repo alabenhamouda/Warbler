@@ -32,7 +32,7 @@ router.post('/signin', (req, res) => {
         user.checkPassword(password)
         .then(match => {
             if (match){
-                let token = jwt.sign({uesrId: user.id}, process.env.SECRET_KEY);
+                let token = jwt.sign({userId: user.id}, process.env.SECRET_KEY);
                 res.json({
                     userId: user.id,
                     token,

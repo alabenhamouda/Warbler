@@ -1,7 +1,8 @@
 const router = require('express').Router({mergeParams: true});
 const {Message, User} = require('../models');
+const authorization = require('../middleware/auth');
 
-router.post('/', (req, res) => {
+router.post('/', authorization, (req, res) => {
     const userId = req.params.userId;
     User.findById(userId)
     .then(async (user) => {
@@ -12,7 +13,7 @@ router.post('/', (req, res) => {
         let message = await Message.create(msg);
         user.messages.push(message._id);
         let update = await user.save();
-        update = await update.populate('messages').execPopulate();
+        update = await update.populate('messages', 'text').execPopulate();
         res.json(update);
     })
     .catch(err => {
