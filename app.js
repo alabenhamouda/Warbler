@@ -6,7 +6,7 @@ const auth = require('./routes/auth');
 const messagesRouter = require('./routes/message');
 const {Message} = require('./models');
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/warbler');
+mongoose.connect(process.env.DBURL);
 mongoose.connection.on('error', () => console.error('connection error!'))
 
 app.use(bodyParser.json());
