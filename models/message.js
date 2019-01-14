@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const User = require('./user');
 
 var messageSchema = new mongoose.Schema({
     text: {
@@ -12,5 +13,12 @@ var messageSchema = new mongoose.Schema({
         required: true
     }   
 }, {timestamps: true});
+
+messageSchema.pre('remove', async function(next){
+    let user = await User.findById(this.userId);
+    user.messages.remove(this.id);
+    await user.save();
+    next();
+})
 
 module.exports = mongoose.model('Message', messageSchema);
